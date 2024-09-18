@@ -3,85 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ArcGIS Search Box for StoryMap</title>
+  <title>Search Box</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 50px;
+      margin: 0;
+      padding: 0;
+    }
+    .embed-box {
+      width: 320px; /* Adjust the width to your small box size */
+      height: 150px; /* Adjust the height to your small box size */
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      overflow: hidden; /* Prevents scroll bars */
     }
     input[type="text"] {
-      width: 300px;
-      padding: 10px;
+      width: 100%; /* Make input take the full width */
+      padding: 5px;
+      box-sizing: border-box;
     }
     button {
-      padding: 10px;
+      width: 100%;
+      padding: 5px;
+      margin-top: 10px;
+      box-sizing: border-box;
     }
     #results {
-      margin-top: 20px;
-    }
-    .error {
-      color: red;
+      margin-top: 10px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <h1>Search Feature Service</h1>
-  <input type="text" id="search-input" placeholder="Search by name..." />
-  <button onclick="performSearch()">Search</button>
-  
-  <div id="results"></div>
+  <div class="embed-box">
+    <h1 style="font-size: 18px;">Search Box</h1>
+    <input type="text" id="search-input" placeholder="Search for something..." />
+    <button onclick="performSearch()">Search</button>
+    <div id="results"></div>
+  </div>
 
   <script>
-    async function performSearch() {
-      // Get the user's search query
-      const query = document.getElementById("search-input").value.trim();
-      
-      if (!query) {
-        document.getElementById("results").innerHTML = "<p class='error'>Please enter a search term.</p>";
-        return;
-      }
-
-      // ArcGIS Feature Service URL
-      const featureServiceURL = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3/query";
-
-      // Parameters for the query
-      const params = new URLSearchParams({
-        where: `STATE_NAME LIKE '%${query}%'`,  // Example: Search by state name
-        outFields: "STATE_NAME,POP2007",       // Return specific fields (change as needed)
-        returnGeometry: false,                 // Do not return geometries
-        f: "json"                              // Output format as JSON
-      });
-
-      try {
-        // Make a fetch request to the ArcGIS Feature Service
-        const response = await fetch(`${featureServiceURL}?${params}`);
-        
-        // Parse the JSON response
-        const data = await response.json();
-        
-        // Clear previous results
-        const resultsDiv = document.getElementById("results");
-        resultsDiv.innerHTML = "";
-        
-        // Display results or error message
-        if (data.features && data.features.length > 0) {
-          let resultsHTML = "<ul>";
-          
-          data.features.forEach(feature => {
-            const stateName = feature.attributes.STATE_NAME;
-            const population = feature.attributes.POP2007;
-            resultsHTML += `<li><b>${stateName}</b>: Population in 2007 - ${population}</li>`;
-          });
-          
-          resultsHTML += "</ul>";
-          resultsDiv.innerHTML = resultsHTML;
-        } else {
-          resultsDiv.innerHTML = "<p>No results found.</p>";
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        document.getElementById("results").innerHTML = "<p class='error'>An error occurred while searching. Please try again.</p>";
-      }
+    function performSearch() {
+      const query = document.getElementById("search-input").value;
+      document.getElementById("results").innerHTML = `You searched for: <b>${query}</b>`;
     }
   </script>
 </body>
