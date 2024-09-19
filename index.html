@@ -43,17 +43,17 @@
   </div>
 
   <script>
-    function performSearch() {
-      const query = document.getElementById("search-input").value;
+  function performSearch() {
+    const query = document.getElementById("search-input").value;
 
-      // Send the search term to ArcGIS Experience Builder
-      window.parent.postMessage({
-        type: 'search',
-        query: query
-      }, '*');
-      
-      document.getElementById("results").innerHTML = `You searched for: <b>${query}</b>`;
-    }
-  </script>
+    // Send the search term to ArcGIS Experience Builder
+    window.parent.postMessage({
+      type: 'search',
+      query: query
+    }, '*');
+    
+    document.getElementById("results").innerHTML = `You searched for: <b>${query}</b>`;
+  }
+</script>
 </body>
 </html>
