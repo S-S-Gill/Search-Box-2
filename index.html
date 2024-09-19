@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -11,15 +10,15 @@
       padding: 0;
     }
     .embed-box {
-      width: 400px; /* Adjust the width to your small box size */
-      height: 300px; /* Adjust the height to your small box size */
+      width: 320px;
+      height: 150px;
       padding: 10px;
       box-sizing: border-box;
       border: 1px solid #ccc;
-      overflow: hidden; /* Prevents scroll bars */
+      overflow: hidden;
     }
     input[type="text"] {
-      width: 100%; /* Make input take the full width */
+      width: 100%;
       padding: 5px;
       box-sizing: border-box;
     }
@@ -46,6 +45,13 @@
   <script>
     function performSearch() {
       const query = document.getElementById("search-input").value;
+
+      // Send the search term to ArcGIS Experience Builder
+      window.parent.postMessage({
+        type: 'search',
+        query: query
+      }, '*');
+      
       document.getElementById("results").innerHTML = `You searched for: <b>${query}</b>`;
     }
   </script>
